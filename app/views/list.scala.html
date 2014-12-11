@@ -1,0 +1,10 @@
+@(viestit: Traversable[models.Viesti])
+@layout {
+    <h2>Items list</h2>
+    <ul>
+    @for(viesti <- viestit) {
+        <li><a href="@routes.Viestit.details(viesti.id)">@viesti.name</a></li>
+    }
+    </ul>
+    <a href="@routes.Viestit.createForm()">Lisää uusi viesti.</a>
+}

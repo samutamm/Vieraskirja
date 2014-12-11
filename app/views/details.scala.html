@@ -1,0 +1,5 @@
+@(viesti: models.Viesti)
+@layout {
+    <h2>Viestin tiedot</h2>
+    <p><strong>@viesti.name</strong>: @(f"${viesti.price}%.2f")&nbsp;€</p>
+}

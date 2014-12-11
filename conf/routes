@@ -1,0 +1,19 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET           /                      controllers.Application.index
+
+GET           /viestit                 controllers.Viestit.list
+POST          /viestit                 controllers.Viestit.create
+POST          /viestit/add             controllers.Viestit.create
+GET           /viestit/add             controllers.Viestit.createForm
+GET           /viestit/$id<\d+>        controllers.Viestit.details(id: Long)
+PUT           /viestit/:id             controllers.Viestit.update(id: Long)
+DELETE        /viestit/:id             controllers.Viestit.delete(id: Long)
+
+GET           /assets/javascripts/routes.js  controllers.Application.javascriptRouter
+
+# Map static resources from the /public folder to the /assets URL path
+GET           /assets/*file          controllers.Assets.versioned(path="/public", file: Asset)

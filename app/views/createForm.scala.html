@@ -1,0 +1,9 @@
+@(form: Form[CreateViesti])
+@layout {
+    <h2>Lisää viesti: </h2>
+    @helper.form(routes.Viestit.create()) {
+        @helper.inputText(form("name"), '_label -> "Name")
+        @helper.inputText(form("price"), '_label -> "Price")
+        <button>Tallenna</button>
+    }
+}

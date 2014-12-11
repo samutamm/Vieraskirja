@@ -1,5 +1,8 @@
 @(viesti: models.Viesti)
 @layout {
     <h2>Viestin tiedot</h2>
-    <p><strong>@viesti.name</strong>: @(f"${viesti.price}%.2f")&nbsp;€</p>
+    <p><strong>@viesti.nimi</strong>: @viesti.sisalto</p>
+    @helper.form(routes.Viestit.delete(viesti.id)) {
+        <button type="submit">Poista</button>
+    }
 }

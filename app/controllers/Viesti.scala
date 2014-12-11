@@ -1,5 +1,7 @@
 package controllers
 
+import java.lang.ProcessBuilder.Redirect
+
 import play.api.mvc.{Action, Controller}
 import play.api.libs.json._
 import models.Viesti
@@ -8,12 +10,12 @@ import play.api.data.Forms.{mapping, text, of}
 import play.api.data.format.Formats.doubleFormat
 import play.api.data.validation.Constraints
 
-case class CreateViesti(name: String, price: Double)
+case class CreateViesti(nimi: String, sisalto: String)
 
 object CreateViesti {
   val form = Form(mapping(
-    "name" -> text.verifying(Constraints.nonEmpty),
-    "price" -> of[Double].verifying(Constraints.min(0.0, strict = true))
+    "nimi" -> text.verifying(Constraints.nonEmpty),
+    "sisalto" -> text.verifying(Constraints.nonEmpty)
   )(CreateViesti.apply)(CreateViesti.unapply))
 }
 
@@ -38,7 +40,7 @@ object Viestit extends Controller {
         case Accepts.Json() => BadRequest(formWithErrors.errorsAsJson)
       },
       createViesti => {
-        vieraskirja.create(createViesti.name, createViesti.price) match {
+        vieraskirja.create(createViesti.nimi, createViesti.sisalto) match {
           case Some(viesti) => render {
             case Accepts.Html() => Redirect(routes.Viestit.details(viesti.id))
             case Accepts.Json() => Ok(Json.toJson(viesti))
@@ -63,10 +65,11 @@ object Viestit extends Controller {
     }
   }
 
+
   def update(id: Long) = Action { implicit request =>
     CreateViesti.form.bindFromRequest().fold(
       formWithErrors => BadRequest(formWithErrors.errorsAsJson),
-      updateViesti => vieraskirja.update(id, updateViesti.name, updateViesti.price) match {
+      updateViesti => vieraskirja.update(id, updateViesti.nimi, updateViesti.sisalto) match {
         case Some(viesti) => Ok(Json.toJson(viesti))
         case None => InternalServerError
       }
@@ -74,7 +77,8 @@ object Viestit extends Controller {
   }
 
   def delete(id: Long) = Action {
-    if (vieraskirja.delete(id)) Ok else BadRequest
+    vieraskirja.delete(id)
+    Redirect(routes.Viestit.list)
   }
 
 }

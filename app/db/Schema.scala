@@ -9,9 +9,9 @@ object Schema {
 
   class Viestit(tag: Tag) extends Table[Viesti](tag, "VIESTIT") {
     val id = column[Long]("ID", O.AutoInc)
-    val name = column[String]("NAME")
-    val price = column[Double]("PRICE")
-    override def * = (id, name, price) <> (Viesti.tupled, Viesti.unapply)
+    val nimi = column[String]("NIMI")
+    val sisalto = column[String]("SISALTO")
+    override def * = (id, nimi, sisalto) <> (Viesti.tupled, Viesti.unapply)
   }
   val viestit = TableQuery[Viestit]
 

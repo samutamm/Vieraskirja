@@ -2,8 +2,8 @@
 
 CREATE TABLE viestit (
   id IDENTITY NOT NULL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  price DOUBLE NOT NULL
+  nimi VARCHAR(255) NOT NULL,
+  sisalto VARCHAR(255) NOT NULL
 );
 
 # --- !Downs

@@ -3,17 +3,17 @@ package models
 import scala.concurrent.stm.{Ref, atomic}
 import scala.collection.immutable.SortedMap
 
-case class Viesti(id: Long, name: String, price: Double)
+case class Viesti(id: Long, nimi: String, sisalto: String)
 
 trait Vieraskirja {
 
   def list(): Iterable[Viesti]
 
-  def create(name: String, price: Double): Option[Viesti]
+  def create(nimi: String, sisalto: String): Option[Viesti]
 
   def get(id: Long): Option[Viesti]
 
-  def update(id: Long, name: String, price: Double): Option[Product]
+  def update(id: Long, nimi: String, sisalto: String): Option[Product]
 
   def delete(id: Long): Boolean
 
@@ -29,8 +29,8 @@ object Vieraskirja extends Vieraskirja {
     viestit.list()
   }
 
-  def create(name: String, price: Double): Option[Viesti] = ds withSession { implicit session =>
-    val id = viestit.returning(viestit.map(_.id)) += Viesti(0, name, price)
+  def create(nimi: String, sisalto: String): Option[Viesti] = ds withSession { implicit session =>
+    val id = viestit.returning(viestit.map(_.id)) += Viesti(0, nimi, sisalto)
     viestit.byId(id).firstOption()
   }
 
@@ -38,8 +38,8 @@ object Vieraskirja extends Vieraskirja {
     viestit.byId(id).firstOption()
   }
 
-  def update(id: Long, name: String, price: Double): Option[Viesti] = ds withSession { implicit session =>
-    viestit.byId(id).update(Viesti(id, name, price))
+  def update(id: Long, nimi: String, sisalto: String): Option[Viesti] = ds withSession { implicit session =>
+    viestit.byId(id).update(Viesti(id, nimi, sisalto))
     viestit.byId(id).firstOption()
   }
 

@@ -20,10 +20,9 @@ class ViestiSpec extends PlaySpecification {
     }
 
 
-    "lisaa viesti JSON:illa" in new VieraskirjaApplication {
-      val vastaus = call(Viestit.create, FakeRequest().withJsonBody(luoViesti))
-      status(vastaus) must equalTo (OK) //tutki tämä!
-      contentAsJson(vastaus) must equalTo (luotuViesti)
+    "lisaa viesti JSON:illa, seuraa uudelleenohjaus" in new VieraskirjaApplication {
+      val vastaus = controllers.Viestit.create(FakeRequest().withJsonBody(luoViesti))
+      status(vastaus) must equalTo (SEE_OTHER)
     }
     
     
